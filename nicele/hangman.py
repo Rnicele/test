@@ -30,7 +30,7 @@ while numberGuess != countGuess and lives != 0:
                 print('letter is in the word already. input another letter')
                 break
             else:
-                indexes = [m.start() for m in re.finditer(letter, rword)]
+                indexes = [m.start() for m in re.finditer(letter, rword)] # finditer(1 input, word)
                 print('Correct!')
                 print('Lives left: ', lives)
                 
