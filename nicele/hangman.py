@@ -1,4 +1,6 @@
+import enum
 import random
+import re
 
 words = ['accident', 'designer', 'exchange', 'original', 'spectrum', 'unlawful']
 lives = 6
@@ -12,28 +14,37 @@ message = '''
 guessword = ['_', '_', '_', '_', '_', '_', '_', '_']
 numberGuess = 8
 countGuess = 0
+
 rword = random.choice(words)
 listrword = list(rword)
-print(rword)
-print(countGuess)
 
 while numberGuess != countGuess and lives != 0:
     letter = input('Letter: ')
+    
     print('-------------------------------------------------------------------------------------')
     if len(letter) == 1:
         while letter in listrword:
             find = ''.join(guessword).find(letter)
-            if find == True:
+            print("find: ", find)
+            if find >= 0:
                 print('letter is in the word already. input another letter')
                 break
             else:
-                print('Letter is not in the word yet')
+                indexes = [m.start() for m in re.finditer(letter, rword)]
+                print('Correct!')
                 print('Lives left: ', lives)
-                letFind = rword.find(letter)
-                guessword[letFind] = letter
-                countGuess += 1
+                
+                if len(indexes) > 0:
+                    for index in indexes:
+                        guessword[index] = letter
+                    
+                    countGuess += len(indexes)
+                else:
+                    index = indexes[0]
+                    guessword[index] = letter
+                    countGuess += 1
+                
                 print("GUESS THE WORD: ", ''.join(guessword))
-                print("Counted Correct Letters: ", countGuess)
                 print('-------------------------------------------------------------------------------------')
                 break
             
@@ -51,3 +62,5 @@ else:
         print("You don't have lives left. GAME OVER")
     elif numberGuess == countGuess:
         print("CONGRATULATIONS! YOU GUESS THE WORD!")
+
+
