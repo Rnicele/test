@@ -12,7 +12,7 @@ class Hangman:
         filtered = selected
         output = list(map(self.__toUnderscore, list(range(len(selected)))))
 
-        print('_' * len(selected))
+        print('_ ' * len(selected))
 
         while len(filtered) > 0:
             valid = False
@@ -27,7 +27,7 @@ class Hangman:
                 for index in indexes:
                     output[index] = letter
 
-            print(''.join(map(self.__toUpper, output)))
+            print(' '.join(map(self.__toUpper, output)))
             temp = filtered.replace(letter, '')
 
             if len(temp) == len(filtered):
