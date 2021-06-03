@@ -17,7 +17,7 @@ h = canvas_height // 2
 
 class RedRidingHood:
     global p1ca, p1cb, p2aca, p2acb, p2acc, p2bca, p2bcb, p3aca, p3bcb, p3bcb
-    global p3acb
+    global p3acb, p3cca, p3ccb
 
     def __init__(self):
         pass
@@ -191,29 +191,43 @@ class RedRidingHood:
         title = canvas.create_text(w+80, 40, text="You choose to run to her grandma's house", fill='white', font=subjectFont, anchor=NE)
         intro = canvas.create_text(w-30, 80, text=ThirdIntro, fill='white', justify='center', font=introFont)
         
+        self.create_button_p3c()
 
-    # PART 2 CHOICES - OPTION A, PART 3 (function p2bChoice_a)
+    # PART 2 CHOICES - OPTION A, PART 3 OPTION A (function p2bChoice_a)
+    #done
     def create_button_p3a(self):
-        self.p3bca = Button(root, text="A. Give up on finding a hunter and go back to the forest",)
-        self.p3bca.bind('<Button-1>', self.p3aChoice_a)
-        self.p3bca.pack(side = TOP,pady=5)
-
-        self.p3bcb = Button(root, text="B. Found a hunter and go back to the forest")
-        self.p3bcb.bind('<Button-1>', self.p3aChoice_b)
-        self.p3bcb.pack( side = TOP,pady=5)   
-
-
-    # PART 2 CHOICES - OPTION B, PART 3 (function p2bChoice_b)
-    def create_button_p3b(self):
-        self.p3aca = Button(root, text="A. Tell the mother about the wolf and \n look for a hunter to go back to forest",)
-        self.p3aca.bind('<Button-1>', self.p3bChoice_a)
+        self.p3aca = Button(root, text="A. Give up on finding a hunter and go back to the forest",)
+        self.p3aca.bind('<Button-1>', self.p3aChoice_a)
         self.p3aca.pack(side = TOP,pady=5)
 
-        self.p3acb = Button(root, text="B. Don't tell to the mother so her \n mother go to the forest insted")
-        self.p3acb.bind('<Button-1>', self.p3bChoice_b)
-        self.p3acb.pack( side = TOP,pady=5)
+        self.p3acb = Button(root, text="B. Found a hunter and go back to the forest")
+        self.p3acb.bind('<Button-1>', self.p3aChoice_b)
+        self.p3acb.pack( side = TOP,pady=5)   
+
+
+    # PART 2 CHOICES - OPTION B, PART 3 OPTION B (function p2bChoice_b)
+    #done
+    def create_button_p3b(self):
+        self.p3bca = Button(root, text="A. Tell the mother about the wolf and \n look for a hunter to go back to forest",)
+        self.p3bca.bind('<Button-1>', self.p3bChoice_a)
+        self.p3bca.pack(side = TOP,pady=5)
+
+        self.p3bcb = Button(root, text="B. Don't tell to the mother so her \n mother go to the forest instead")
+        self.p3bcb.bind('<Button-1>', self.p3bChoice_b)
+        self.p3bcb.pack( side = TOP,pady=5)
 
     
+    # PART 2 CHOICES - OPTION B, PART 3 OPTION C (function p2bChoice_c)
+    def create_button_p3c(self):
+        self.p3cca = Button(root, text="A. Run together with Grandma out of the forest \n and look for a hunter",)
+        self.p3cca.bind('<Button-1>', self.p3cChoice_a)
+        self.p3cca.pack(side = TOP,pady=5)
+
+        self.p3ccb = Button(root, text="B. Hide together inside the house")
+        self.p3ccb.bind('<Button-1>', self.p3cChoice_b)
+        self.p3ccb.pack( side = TOP,pady=5)   
+
+    #done
     def p3aChoice_a(self, event):
         print("You give up on finding a hunter and return to the woods again")
         print('hide me')
@@ -236,6 +250,7 @@ class RedRidingHood:
         msg = canvas.create_text(w, 185, text="LITTLE RED RIDING HOOD AND HER GRANDMOTHER \n GOT EATEN BY THE WOLF", fill='black', font=subjectFont, justify='center')
 
 
+    #done
     def p3aChoice_b(self, event):
         print("You found a hunter and go back to the woods")
         print('hide me')
@@ -266,7 +281,96 @@ class RedRidingHood:
         # YOU WIN
         
 
-    # PART 2 CHOICES - OPTION B, PART 3 (function p2bChoice_a)
+    # PART 2 CHOICES - OPTION B, PART 3 (function p3bChoice_a)
+    #done
+    def p3bChoice_a(self, event):
+        print("You told the mother about the wolf and \n look for a hunter to go back to forest")
+        print('hide me')
+        self.p3bca.pack_forget()
+        self.p3bcb.pack_forget() 
+
+        canvas = Canvas(root, width=canvas_width, height=h)
+        canvas.pack() 
+
+        FourthIntro = '''
+            *Little red riding hood return to forest together with her mother
+            and a hunter. they found the big wolf and killed it*
+        '''
+        r2 = canvas.create_rectangle(30, 30, canvas_width-30, h/2, fill='green')
+        title = canvas.create_text(canvas_width-100, 40, text="You told the mother and found a hunter to go back to forest", fill='white', font=subjectFont, anchor=NE)
+        intro = canvas.create_text(w-30, 80, text=FourthIntro, fill='white', justify='center', font=introFont)
+
+        r3 = canvas.create_rectangle(30, 140, canvas_width-30, h/2+100, fill='lightblue')
+        ending = canvas.create_text(w, 155, text="-- YOU WIN --", fill='black', font=subjectFont, justify='center')
+        msg = canvas.create_text(w, 185, text="LITTLE RED RIDING HOOD TOGETHER WITH HER MOTHER \n AND A HUNTER KILLED THE WOLF", fill='black', font=subjectFont, justify='center')
+
+
+    #done
+    def p3bChoice_b(self,event):
+        print("You didn't tell to the mother so her \n mother go to the forest instead")
+        print('hide me')
+        self.p3bca.pack_forget()
+        self.p3bcb.pack_forget() 
+
+        canvas = Canvas(root, width=canvas_width, height=h)
+        canvas.pack() 
+
+        FourthIntro = '''
+            *Little red riding hood didn't tell his mother about the big wolf, so her mother
+            go by herself in the woods and also got eaten by the big wolf*
+        '''
+        r2 = canvas.create_rectangle(30, 30, canvas_width-30, h/2, fill='green')
+        title = canvas.create_text(canvas_width-220, 40, text="You didnt tell the mother about the big wolf", fill='white', font=subjectFont, anchor=NE)
+        intro = canvas.create_text(w-30, 80, text=FourthIntro, fill='white', justify='center', font=introFont)
+
+        r3 = canvas.create_rectangle(30, 140, canvas_width-30, h/2+100, fill='lightblue')
+        ending = canvas.create_text(w, 155, text="-- YOU LOSE --", fill='black', font=subjectFont, justify='center')
+        msg = canvas.create_text(w, 185, text="LITTLE RED RIDING HOOD'S MOTHER GOT EATEN \n BY THE BIG WOLF", fill='black', font=subjectFont, justify='center')
+
+    #done
+    def p3cChoice_a(self,event):
+        print("You chose to run together and look for a hunter")
+        print('hide me')
+        self.p3cca.pack_forget()
+        self.p3ccb.pack_forget() 
+
+        canvas = Canvas(root, width=canvas_width, height=h)
+        canvas.pack() 
+
+        FourthIntro = '''
+            *Little red riding hood run to her grandma's house
+            and help her grandma to stand and run out of the house*
+        '''
+        r2 = canvas.create_rectangle(30, 30, canvas_width-30, h/2, fill='green')
+        title = canvas.create_text(canvas_width-180, 40, text="You chose to run together and look for a hunter", fill='white', font=subjectFont, anchor=NE)
+        intro = canvas.create_text(w-30, 80, text=FourthIntro, fill='white', justify='center', font=introFont)
+
+        r3 = canvas.create_rectangle(30, 140, canvas_width-30, h/2+100, fill='lightblue')
+        ending = canvas.create_text(w, 155, text="-- YOU WIN --", fill='black', font=subjectFont, justify='center')
+        msg = canvas.create_text(w, 185, text="LITTLE RED RIDING HOOD'S AND GRANDMA GOT RUN OUT OF \n THE HOUSE AND FOUND A HUNTER AND KILLED THE BIG WOLF", fill='black', font=subjectFont, justify='center')
+
+    #done
+    def p3cChoice_b(self, event):
+        print("You chose to hide together inside the house")
+        print('hide me')
+        self.p3cca.pack_forget()
+        self.p3ccb.pack_forget() 
+
+        canvas = Canvas(root, width=canvas_width, height=h)
+        canvas.pack() 
+
+        FourthIntro = '''
+            *Little red riding hood run to her grandma's house
+            and help her stand to hide*
+        '''
+        r2 = canvas.create_rectangle(30, 30, canvas_width-30, h/2, fill='green')
+        title = canvas.create_text(canvas_width-220, 40, text="You chose to hide together inside the hous", fill='white', font=subjectFont, anchor=NE)
+        intro = canvas.create_text(w-30, 80, text=FourthIntro, fill='white', justify='center', font=introFont)
+
+        r3 = canvas.create_rectangle(30, 140, canvas_width-30, h/2+100, fill='lightblue')
+        ending = canvas.create_text(w, 155, text="-- YOU LOSE --", fill='black', font=subjectFont, justify='center')
+        msg = canvas.create_text(w, 185, text="LITTLE RED RIDING HOOD'S AND GRANDMA HIDE INSIDE THE \n HOUSE BUT THE BIG WOLF FOUND THEM AND EAT THEM", fill='black', font=subjectFont, justify='center')
+
 # -------------------------- OPTION B FROM PART 1 ----------------------------------------------------------------------    
     # BUTTON CREATION FOR PART 2 - OPTION B (function p1Choice_b)
     def create_button_p2b(self):
@@ -286,7 +390,7 @@ class RedRidingHood:
         self.p2bca.pack_forget() # Hide p1cb
         self.p2bcb.pack_forget() # Hide p1ca
 
-        canvas = Canvas(root, width=canvas_width, height=h/2+80)
+        canvas = Canvas(root, width=canvas_width, height=canvas_height-100)
         canvas.pack() 
         
         SecondIntro = '''
@@ -298,9 +402,14 @@ class RedRidingHood:
 
             "i had better be going. Goodbye, Mr. wolf!" 
         '''
-        r2 = canvas.create_rectangle(30, 30, canvas_width-30, h+80, fill='purple')
+        r2 = canvas.create_rectangle(30, 30, canvas_width-30, h-30, fill='purple')
         title = canvas.create_text(canvas_width-130, 40, text="You choose to tell the big wolf about your Grandmother", fill='white', font=subjectFont, anchor=NE)
         intro = canvas.create_text(w-30, 120, text=SecondIntro, fill='white', justify='center', font=introFont)
+
+        # (width, height, width, height)
+        r3 = canvas.create_rectangle(30, 300, canvas_width-30, h/2+110, fill='lightblue')
+        ending = canvas.create_text(w, 240, text="-- YOU WIN --", fill='black', font=subjectFont, justify='center')
+        msg = canvas.create_text(w, 270, text="LITTLE RED RIDING HOOD'S AND GRANDMA GOT EATEN \n BUT SAVED THE PASSING HUNTER", fill='black', font=subjectFont, justify='center')
 
 
     def p2bChoice_b(self,event):
@@ -309,7 +418,7 @@ class RedRidingHood:
         self.p2bca.pack_forget() # Hide p1cb
         self.p2bcb.pack_forget() # Hide p1ca
 
-        canvas = Canvas(root, width=canvas_width, height=h/2+80)
+        canvas = Canvas(root, width=canvas_width, height=canvas_height-100)
         canvas.pack() 
         
         SecondIntro = '''
@@ -322,12 +431,17 @@ class RedRidingHood:
             "Sure! Let's go play!"
         '''
 
-        r2 = canvas.create_rectangle(30, 30, canvas_width-30, h+80, fill='purple')
-        title = canvas.create_text(canvas_width-130, 40, text="You choose to play with the big wolf", fill='white', font=subjectFont, anchor=NE)
+        r2 = canvas.create_rectangle(30, 30, canvas_width-30, h-30, fill='purple')
+        title = canvas.create_text(w+20, 40, text="You choose to play with the big wolf", fill='white', font=subjectFont, anchor=NE)
         intro = canvas.create_text(w-30, 120, text=SecondIntro, fill='white', justify='center', font=introFont)
 
-        print("YOU LOSE. RED RIDING HOOD GOT EATEN BY THE BIG WOLF")
+        # (width, height, width, height)
+        r3 = canvas.create_rectangle(30, 300, canvas_width-30, h/2+110, fill='lightblue')
+        ending = canvas.create_text(w, 240, text="-- YOU LOSE --", fill='black', font=subjectFont, justify='center')
+        msg = canvas.create_text(w, 270, text="RED RIDING HOOD GOT EATEN BY THE BIG WOLF", fill='black', font=subjectFont, justify='center')
 
+
+    
 
 rrhStart = RedRidingHood()
 rrhStart.start()
