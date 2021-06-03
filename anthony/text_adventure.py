@@ -20,7 +20,7 @@ story = {
                              'key': 'b',
                              'label': 'Continue running.',
                              'statement': 'WIN: You found a villager and got help.',
-                         },
+                         }
                     ]
                 },
                 {
@@ -37,7 +37,7 @@ story = {
                             'key': 'b',
                             'label': 'Keep it to yourself.',
                             'statement': 'LOSE: The wolf followed you and killed the unknowing villagers including you and your mother.',
-                        },
+                        }
                     ]
                 },
                 {
@@ -54,33 +54,66 @@ story = {
                             'key': 'b',
                             'label': 'Hide together with your grand mother.',
                             'statement': 'LOSE: The wolf found and killed both of you.',
-                        },
+                        }
                     ]
                 }
             ]
         },
-        # 'b': 'Converse with the wolf.',
+        {
+            'key': 'b',
+            'label': 'Converse with the wolf.',
+            'statement': 'You continue talking to the wolf.',
+            'choices': [
+                {
+                    'key': 'a',
+                    'label': 'Tell the wolf about sick grand mother.',
+                    'statement': 'The wolf looks sadden and wants cheers you up by playing with him.',
+                    'choices': [
+                         {
+                             'key': 'a',
+                             'label': 'Say goodbye and go to your grand mother\'s house.',
+                             'statement': 'WIN: You reached grand mother\'s house. The wolf followed you but chased away by a hunter.',
+                         },
+                        {
+                             'key': 'b',
+                             'label': 'Play with the wolf.',
+                             'statement': 'LOSE: The wolf ate you instead.',
+                         }
+                    ]
+                },
+                {
+                    'key': 'b',
+                    'label': 'Play with the wolf.',
+                    'statement': 'LOSE: The wolf ate you instead.',
+                }
+            ]
+        },
     ]
 }
 
 
 def process(part: dict):
-    """
-    Process a story recursively.
+    '''
+    Process the story recursively.
 
     Keyword arguments:
     part -- the part of story (dict)
-    """
+    '''
 
     print(part['statement'])
 
     if not 'choices' in part:
         return
 
+    valid_keys = []
+    answer = ''
+
     for choice in part['choices']:
+        valid_keys.append(choice['key'])
         print(f"[{choice['key']}] {choice['label']}")
 
-    answer = input('Choice: ')
+    while not answer in valid_keys:
+        answer = input('Choice: ')
 
     print('\n')
 
