@@ -117,9 +117,13 @@ def process(part: dict):
 
     print('\n')
 
-    process(
-        next((item for item in part['choices'] if item['key'] == answer), None)
+    # Get the next choice dictionary that matches key with the given answer
+    next_part = next(
+        (item for item in part['choices'] if item['key'] == answer),
+        None
     )
+
+    process(next_part)
 
 
 process(story)
