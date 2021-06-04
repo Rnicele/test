@@ -5,6 +5,8 @@ import tkinter.font as tkFont
 root = Tk()
 root.title('Calculator')
 press_equation = ''
+equal_equation = ''
+checker = 0
 
 
 # input 
@@ -14,43 +16,71 @@ equation_field= Entry(root, textvariable=equation)
 # input widget
 equation_field.grid(columnspan=5, ipadx=70)
 
-press_equal = False
 
 def pressnumber(num):
-    global press_equation, press_equal
-
-    if press_equal == False:
+    global press_equation
+    if checker == 0:
         press_equation = press_equation + str(num)
         equation.set(press_equation)
-    else:
-        total = total + str(num)
+    elif checker == 1:
+        press_equation = equal_equation + str(num)
         equation.set(press_equation)
+        change_checker(0)
+    elif checker == 2:
+        press_equation = '' + str(num)
+        equation.set(press_equation)
+        change_checker(0)
 
-    # print(press_equation)
+def pressoperation(num):
+    global press_equation
+    if checker == 0:
+        press_equation = press_equation + str(num)
+        equation.set(press_equation)
+    elif checker == 1:
+        press_equation = equal_equation + str(num)
+        equation.set(press_equation)
+        change_checker(0)
+    elif checker == 2:
+        press_equation = '' + str(num)
+        equation.set(press_equation)
+        change_checker(0)
+    
+def change_checker(check):
+    global checker
+    checker = check
 
-
-def pressreset(reset):
-    print(reset)
+def pressreset(param):
+    global checker, press_equation
+    press_equation = ''
+    equation.set(press_equation)
+    checker = 2
 
 def pressequal(equal):
+    global equal_equation, checker
+    press_equal = eval(press_equation)
+    equal_equation = str(press_equal)
+    equation.set(equal_equation)
+    checker = 1
 
-    if  == False:
-        press_equal = eval(press_equation)
-        equation.set(press_equal)
-        click_equals = True
-    else:
-        press_equal = eval(press_equation)
-        equation.set(press_equal)
-    print(total)
+def presssign(signs):
+    global press_equation
+    operation = ['+', '-', '*', '/', '%']
+    pos_neg = press_equation[-2:]
+    print(pos_neg[-2:-1])
+    #print(press_equation[len(press_equation)])
+    # if 
+    
+
+
 
 # operation button widget
-addition = Button(root, text = "+", command=lambda: pressnumber('+'))
-subtraction = Button(root, text = "-", command=lambda: pressnumber('-'))
-multiplication = Button(root, text = "*", command=lambda: pressnumber('*'))
-division = Button(root, text = "/", command=lambda: pressnumber('/'))
-modulo = Button(root, text = "%", command=lambda: pressnumber('%'))
-sign = Button(root, text = "+/-", command=lambda: pressnumber('+/-'))
-reset = Button(root, text = "C", command=lambda: pressreset('reset'))
+addition = Button(root, text = "+", command=lambda: pressoperation('+'))
+subtraction = Button(root, text = "-", command=lambda: pressoperation('-'))
+multiplication = Button(root, text = "*", command=lambda: pressoperation('*'))
+division = Button(root, text = "/", command=lambda: pressoperation('/'))
+modulo = Button(root, text = "%", command=lambda: pressoperation('%'))
+sign = Button(root, text = "+/-", command=lambda: presssign(['+', '-']))
+reset = Button(root, text = "C", command=lambda: pressreset(True))
 dot = Button(root, text = ".", command=lambda: pressnumber('.'))
 equal = Button(root, text = "=", command=lambda: pressequal('='))
 
@@ -88,6 +118,7 @@ number7.grid(row = 4, column = 1, sticky = E)
 number8.grid(row = 4, column = 2, sticky = E)
 number9.grid(row = 4, column = 3, sticky = E)
 number0.grid(row = 5, column = 2, sticky = E)
+
 
 root.resizable(False, False) 
 root.mainloop()
