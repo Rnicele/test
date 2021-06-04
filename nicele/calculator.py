@@ -2,11 +2,13 @@ from tkinter import *
 from tkinter.ttk import *
 import tkinter.font as tkFont
 
+
 root = Tk()
 root.title('Calculator')
 press_equation = ''
 equal_equation = ''
 checker = 0
+operation_array = []
 
 
 # input 
@@ -44,31 +46,49 @@ def pressoperation(num):
         press_equation = '' + str(num)
         equation.set(press_equation)
         change_checker(0)
+
+    print(len(press_equation))
+    operation_array.append([num, len(press_equation)])
+    print(operation_array)
     
 def change_checker(check):
     global checker
     checker = check
 
 def pressreset(param):
-    global checker, press_equation
+    global checker, press_equation, operation_array
     press_equation = ''
     equation.set(press_equation)
     checker = 2
+    operation_array = []
 
 def pressequal(equal):
-    global equal_equation, checker
+    global equal_equation, checker, operation_array
     press_equal = eval(press_equation)
     equal_equation = str(press_equal)
     equation.set(equal_equation)
     checker = 1
+    operation_array = []
 
 def presssign(signs):
-    global press_equation
-    operation = ['+', '-', '*', '/', '%']
-    pos_neg = press_equation[-2:]
-    print(pos_neg[-2:-1])
-    #print(press_equation[len(press_equation)])
-    # if 
+    global press_equation, operation_array
+    
+    last_array = len(operation_array)
+    op_last = operation_array[last_array-1]
+    find_last_numbers = press_equation[op_last[1]:]
+    
+    if op_last[0] == '+':
+        op_last[0] = '-'
+    elif op_last[0] == '-':
+        op_last[0] = '+'
+    
+    print(op_last[0])
+    print(press_equation[op_last[1]-1:])
+    change_var = str(op_last[0]) + str(find_last_numbers)
+    current = press_equation[:op_last[1]-1] + change_var
+    
+    press_equation = current
+    equation.set(press_equation)
     
 
 
