@@ -99,7 +99,6 @@ class Calculator:
             self.equation.set(self.result)
 
         if self.state == self.EXPRESSION_STATE:
-
             if sign in self.OPERATORS:
                 self.calculate()
                 self.setToExpressionState(sign)
@@ -125,12 +124,12 @@ class Calculator:
         try:
             self.operator = self.operator.replace('x', '*').replace('÷', '/')
             result = eval(f"{self.result}{self.operator}{self.expression}")
-            self.result = result if result % 1 != 0 else int(result)
+            self.result = self.pruneZero(result)
             self.equation.set(self.result)
             self.state = self.INITIAL_STATE
             self.operator = ''
             self.expression = ''
-        except SyntaxError:
+        except (SyntaxError, ZeroDivisionError):
             pass
 
     def pruneZero(self, expression: str):
