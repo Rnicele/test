@@ -81,7 +81,7 @@ class Calculator:
                 if self.result == '':
                     return
 
-                self.setToExpressionState(sign)
+                self.set_to_expression_state(sign)
                 return
 
             if (sign == '.') and ('.' in self.result):
@@ -91,7 +91,7 @@ class Calculator:
                 if self.result == '':
                     return
 
-                self.result = str(self.pruneZero(float(self.result) * -1))
+                self.result = str(self.prune_zero(float(self.result) * -1))
                 self.equation.set(self.result)
                 return
 
@@ -101,7 +101,7 @@ class Calculator:
         if self.state == self.EXPRESSION_STATE:
             if sign in self.OPERATORS:
                 self.calculate()
-                self.setToExpressionState(sign)
+                self.set_to_expression_state(sign)
                 return
 
             if (sign == '.') and ('.' in self.expression):
@@ -111,7 +111,7 @@ class Calculator:
                 if self.expression == '':
                     return
 
-                self.expression = str(self.pruneZero(
+                self.expression = str(self.prune_zero(
                     float(self.expression) * -1))
                 self.equation.set(
                     f"{self.result}{self.operator}{self.expression}")
@@ -124,7 +124,7 @@ class Calculator:
         try:
             self.operator = self.operator.replace('x', '*').replace('÷', '/')
             result = eval(f"{self.result}{self.operator}{self.expression}")
-            self.result = self.pruneZero(result)
+            self.result = self.prune_zero(result)
             self.equation.set(self.result)
             self.state = self.INITIAL_STATE
             self.operator = ''
@@ -132,10 +132,10 @@ class Calculator:
         except (SyntaxError, ZeroDivisionError):
             pass
 
-    def pruneZero(self, expression: str):
+    def prune_zero(self, expression: str):
         return expression if expression % 1 != 0 else int(expression)
 
-    def setToExpressionState(self, sign):
+    def set_to_expression_state(self, sign):
         self.operator = sign
         self.equation.set(f"{self.result}{self.operator}")
         self.state = self.EXPRESSION_STATE
