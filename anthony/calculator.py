@@ -3,12 +3,40 @@ from tkinter.ttk import *
 
 
 class Calculator:
+    INITIAL_STATE = 'initial'
+    EXPRESSION_STATE = 'expression'
+    OPERATORS = ['+', '-', '*', 'x', '/', '÷', '%']
+    BUTTONS = [
+        ['+', 1, 4, 1],
+        ['-', 2, 4, 1],
+        ['x', 3, 4, 1],
+        ['÷', 4, 4, 1],
+        ['%', 1, 3, 1],
+        ['+/-', 1, 2, 1],
+        ['C', 1, 1, 1],
+        ['.', 5, 1, 1],
+        ['=', 5, 3, 2, 38],
+        ['0', 5, 2, 1],
+        ['7', 2, 1, 1],
+        ['8', 2, 2, 1],
+        ['9', 2, 3, 1],
+        ['4', 3, 1, 1],
+        ['5', 3, 2, 1],
+        ['6', 3, 3, 1],
+        ['1', 4, 1, 1],
+        ['2', 4, 2, 1],
+        ['3', 4, 3, 1],
+    ]
+
     def __init__(self):
         self.root = Tk()
         self.root.title('Calculator')
         self.root.resizable(False, False)
+        self.state = self.INITIAL_STATE
         self.equation = StringVar()
-        self.total = ''
+        self.result = ''
+        self.operator = ''
+        self.expression = ''
         self.irrigate()
         self.root.mainloop()
 
@@ -22,29 +50,7 @@ class Calculator:
             ipady=18
         )
 
-        buttons = [
-            ['+', 1, 4, 1],
-            ['-', 2, 4, 1],
-            ['*', 3, 4, 1],
-            ['/', 4, 4, 1],
-            ['%', 1, 3, 1],
-            ['+/-', 1, 2, 1],
-            ['C', 1, 1, 1],
-            ['.', 5, 1, 1],
-            ['=', 5, 3, 2, 38],
-            ['0', 5, 2, 1],
-            ['1', 2, 1, 1],
-            ['2', 2, 2, 1],
-            ['3', 2, 3, 1],
-            ['4', 3, 1, 1],
-            ['5', 3, 2, 1],
-            ['6', 3, 3, 1],
-            ['7', 4, 1, 1],
-            ['8', 4, 2, 1],
-            ['9', 4, 3, 1],
-        ]
-
-        for button in buttons:
+        for button in self.BUTTONS:
             self.make(*button)
 
     def make(self, label: str, row: int, column: int, column_span: int, ipadx=0):
@@ -63,25 +69,84 @@ class Calculator:
 
     def evaluate(self, sign: str):
         if sign == 'C':
-            self.equation.set('')
-            return
-
-        if (sign == '+/-'):
-            return
-
-        if (sign == '.') and ('.' in self.equation.get()):
+            self.reset()
             return
 
         if sign == '=':
-            try:
-                result = eval(self.equation.get())
-                self.equation.set("{:.2f}".format(result))
-            except SyntaxError:
-                pass
-
+            self.calculate()
             return
 
-        self.equation.set(f"{self.equation.get()}{sign}")
+        if self.state == self.INITIAL_STATE:
+            if sign in self.OPERATORS:
+                if self.result == '':
+                    return
+
+                self.setToExpressionState(sign)
+                return
+
+            if (sign == '.') and ('.' in self.result):
+                return
+
+            if sign == '+/-':
+                if self.result == '':
+                    return
+
+                self.result = str(self.pruneZero(float(self.result) * -1))
+                self.equation.set(self.result)
+                return
+
+            self.result = f"{self.result}{sign}"
+            self.equation.set(self.result)
+
+        if self.state == self.EXPRESSION_STATE:
+
+            if sign in self.OPERATORS:
+                self.calculate()
+                self.setToExpressionState(sign)
+                return
+
+            if (sign == '.') and ('.' in self.expression):
+                return
+
+            if sign == '+/-':
+                if self.expression == '':
+                    return
+
+                self.expression = str(self.pruneZero(
+                    float(self.expression) * -1))
+                self.equation.set(
+                    f"{self.result}{self.operator}{self.expression}")
+                return
+
+            self.expression = f"{self.expression}{sign}"
+            self.equation.set(f"{self.result}{self.operator}{self.expression}")
+
+    def calculate(self):
+        try:
+            self.operator = self.operator.replace('x', '*').replace('÷', '/')
+            result = eval(f"{self.result}{self.operator}{self.expression}")
+            self.result = result if result % 1 != 0 else int(result)
+            self.equation.set(self.result)
+            self.state = self.INITIAL_STATE
+            self.operator = ''
+            self.expression = ''
+        except SyntaxError:
+            pass
+
+    def pruneZero(self, expression: str):
+        return expression if expression % 1 != 0 else int(expression)
+
+    def setToExpressionState(self, sign):
+        self.operator = sign
+        self.equation.set(f"{self.result}{self.operator}")
+        self.state = self.EXPRESSION_STATE
+
+    def reset(self):
+        self.state = self.INITIAL_STATE
+        self.equation.set('')
+        self.result = ''
+        self.operator = ''
+        self.expression = ''
 
 
 Calculator()
