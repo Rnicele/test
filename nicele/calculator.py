@@ -72,7 +72,7 @@ def pressequal(equal):
 
 def presssign(signs):
     global press_equation, operation_array
-    
+
     last_array = len(operation_array)
     op_last = operation_array[last_array-1]
     find_last_numbers = press_equation[op_last[1]:]
@@ -83,14 +83,12 @@ def presssign(signs):
         op_last[0] = '+'
     
     print(op_last[0])
-    print(press_equation[op_last[1]-1:])
+    print("eq: ", press_equation[op_last[1]-1:])
     change_var = str(op_last[0]) + str(find_last_numbers)
     current = press_equation[:op_last[1]-1] + change_var
     
     press_equation = current
     equation.set(press_equation)
-    
-
 
 
 # operation button widget
